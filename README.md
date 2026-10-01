@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Financial Market Arena — Real-Time Multi-Room Simulation Platform
 
-## Getting Started
+A real-time financial market competition platform built with Next.js 16 (App Router, Turbopack), Tailwind CSS, Lucide icons, and Supabase PostgreSQL with WebSockets. Designed for live multi-room competitions, hackathons, and pitch battles.
 
-First, run the development server:
+---
 
+## 🏛 Platform Architecture
+
+The system coordinates 3 key operational viewpoints in real-time:
+
+1. **Projector Arena Display (`/display`)**
+   - Live ticker tape and 20-company stock exchange board.
+   - Head-to-head match cards with live sparkline history.
+   - Dynamic leaderboard ranked by current market valuation and percentage gain.
+   - Indian Rupee (`₹` / INR) native currency denomination.
+
+2. **Judge Handheld Remote (`/judge`)**
+   - PIN-protected seat authentication (12 seats across 4 rooms).
+   - Dedicated Bullish / Bearish rating triggers for competing teams.
+   - Real-time room status awareness (`LIVE`, `PAUSED`, `LOCKED`).
+
+3. **Organiser Control Room (`/admin`)**
+   - Protected console with live room orchestration (`START ALL`, `PAUSE ALL`, `LOCK ALL`).
+   - Matchup assigner for pairing companies in Rooms 1–4 with variable price steps (±₹1, ±₹2, ±₹5, ±₹10).
+   - **Companies & Valuations Directory**: Rename companies, change tickers, adjust base starting valuations, or manually override live stock prices.
+   - Inline quick-adjust price buttons (`-₹5`, `-₹1`, `+₹1`, `+₹5`).
+   - Audit trail feed with instant filtering and CSV export.
+   - Audit log clearing and full market reset controls.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Install Dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Environment Variables
+Create a `.env.local` file in the root directory (refer to `.env.example`):
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```env
+# Admin Master Password for Organiser Access
+ADMIN_PASSWORD=admin123
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Supabase Realtime Multi-Device Configuration
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
+```
 
-## Learn More
+### 3. Database Schema
+Execute the SQL statements located in [`supabase/schema.sql`](./supabase/schema.sql) in your Supabase SQL Editor. This initializes:
+- `companies`, `rooms`, `judges`, and `vote_logs` tables.
+- Row Level Security (RLS) policies.
+- Realtime publication `supabase_realtime` for live multi-device streaming.
+- Atomic PostgreSQL stored procedures (`submit_vote`, `reset_market`).
 
-To learn more about Next.js, take a look at the following resources:
+### 4. Run Development Server
+```bash
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Open [http://localhost:3000](http://localhost:3000) to view the Home Hub.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## ☁️ Deployment (Vercel)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Push this repository to GitHub.
+2. Log into [Vercel](https://vercel.com) and import the repository.
+3. In **Project Settings** → **Environment Variables**, add:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `ADMIN_PASSWORD`
+4. Click **Deploy**. Your app is now live and synced worldwide across all devices.
