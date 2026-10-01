@@ -365,16 +365,6 @@ export default function AdminPage() {
               {isLoadingAuth ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
-
-          <div className="mt-5 pt-4 border-t border-slate-800 text-center">
-            <button
-              type="button"
-              onClick={() => setPinInput('admin123')}
-              className="text-xs text-slate-400 hover:text-slate-200 transition-colors"
-            >
-              Default Key: <strong className="text-slate-300">admin123</strong>
-            </button>
-          </div>
         </div>
       </div>
     );

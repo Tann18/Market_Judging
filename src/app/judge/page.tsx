@@ -259,38 +259,6 @@ export default function JudgePage() {
               {isLoadingAuth ? 'Checking PIN...' : 'Access Controller'}
             </button>
           </form>
-
-          {/* Quick PINs */}
-          <div className="mt-5 pt-3 border-t border-slate-800">
-            <div className="text-[11px] text-slate-400 mb-2 flex items-center justify-between">
-              <span>Quick fill PIN:</span>
-            </div>
-            <div className="grid grid-cols-4 gap-1.5 text-xs font-mono">
-              {[
-                { label: 'R1·J1', pin: '1001' },
-                { label: 'R1·J2', pin: '1002' },
-                { label: 'R2·J1', pin: '2001' },
-                { label: 'R2·J2', pin: '2002' },
-                { label: 'R3·J1', pin: '3001' },
-                { label: 'R3·J2', pin: '3002' },
-                { label: 'R4·J1', pin: '4001' },
-                { label: 'R4·J2', pin: '4002' },
-              ].map((item) => (
-                <button
-                  key={item.pin}
-                  type="button"
-                  onClick={() => {
-                    setPinInput(item.pin);
-                    setErrorMsg(null);
-                  }}
-                  className="px-1.5 py-1 rounded bg-[#080d1a] hover:bg-slate-900 border border-slate-800 text-slate-300 text-[10px] text-center cursor-pointer transition-colors"
-                >
-                  <span className="block text-slate-500 text-[9px]">{item.label}</span>
-                  <span className="font-bold text-sky-400">{item.pin}</span>
-                </button>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     );
